@@ -21,7 +21,24 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@env/*": [
+        "src/environments/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ],"@core": [
+        "src/app/core/index"
+      ],
+      "@core/*": [
+        "src/app/core/*"
+      ],
+      "ngx-grid-table": [
+        "/Users/davies/IdeaProjects/naraka-ui/dist/ngx-grid-table/ngx-grid-table",
+        "/Users/davies/IdeaProjects/naraka-ui/dist/ngx-grid-table"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
