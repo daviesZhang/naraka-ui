@@ -1,0 +1,11 @@
+<form class="json-form-wrapper"
+      nz-form
+      [nzLayout]="formLayout"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()">
+  <formly-form (modelChange)="onModelChange($event)" class="search-formly"
+               [form]="form"
+               [fields]="fields"
+               [model]="defaultModel">
+  </formly-form>
+</form>

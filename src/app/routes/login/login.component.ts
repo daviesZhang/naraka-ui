@@ -9,17 +9,19 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-  validateForm!: FormGroup;
 
-  successCall=()=> this.router.navigateByUrl("/system/menu").then();
 
-  constructor(
-              private router:Router,) { }
+
+
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
 
   }
+  successCall= ()=> {
 
+    this.router.navigateByUrl("/system/menu").then();
+  };
 
 
 }

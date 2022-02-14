@@ -22,7 +22,15 @@ export interface ICurrentUser{
   /**
    * 已配置的菜单列表
    */
-   menus:Array<string>;
+   menus:Array<UserMenu>;
+}
+
+export interface UserMenu{
+    url:string;
+
+    id:number;
+
+    parent:number;
 }
 
 export class CurrentUser implements ICurrentUser{
@@ -48,14 +56,14 @@ export class CurrentUser implements ICurrentUser{
   /**
    * 已配置的菜单列表
    */
-  menus:Array<string>;
+  menus:Array<UserMenu>;
 
 
   constructor(me:ICurrentUser) {
     this.username = me.username;
     this.passwordExpireTime = me.passwordExpireTime;
     this.createdTime = me.createdTime;
-    this.filter = me.filter;
+    this.filter = me.filter||{};
     this.menus = me.menus;
   }
 

@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {TokenService} from "@core/services/token.service";
+import {MeService} from "@core/services/me.service";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-login-modal',
@@ -18,6 +20,7 @@ export class LoginModalComponent implements OnInit {
 
   constructor(private fb:FormBuilder,
               private tokenService:TokenService,
+              private meService:MeService,
               private http:HttpClient) {
     this.tokenService.cleanToken();
   }
@@ -30,7 +33,9 @@ export class LoginModalComponent implements OnInit {
   }
 
   login(){
-    this.http.post<HttpResponse<any>>("/token", this.validateForm.value,{ observe: 'response' }).subscribe(response => {
+    this.tokenService.requestToken(this.validateForm.value)
+      .pipe(switchMap(()=>this.meService.me()))
+      .subscribe(response => {
       this.successCall();
     });
   }

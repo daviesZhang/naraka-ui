@@ -37,6 +37,10 @@
       "ngx-grid-table": [
         "/Users/davies/IdeaProjects/naraka-ui/dist/ngx-grid-table/ngx-grid-table",
         "/Users/davies/IdeaProjects/naraka-ui/dist/ngx-grid-table"
+      ],
+      "ngx-formly-antd": [
+        "/Users/davies/IdeaProjects/naraka-ui/dist/ngx-formly-antd/ngx-formly-antd",
+        "/Users/davies/IdeaProjects/naraka-ui/dist/ngx-formly-antd"
       ]
     }
   },

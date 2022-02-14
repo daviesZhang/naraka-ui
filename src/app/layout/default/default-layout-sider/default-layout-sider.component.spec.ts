@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DefaultComponent } from './default.component';
+import { DefaultLayoutSiderComponent } from './default-layout-sider.component';
 
-describe('DefaultComponent', () => {
-  let component: DefaultComponent;
-  let fixture: ComponentFixture<DefaultComponent>;
+describe('DefaultLayoutSiderComponent', () => {
+  let component: DefaultLayoutSiderComponent;
+  let fixture: ComponentFixture<DefaultLayoutSiderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DefaultComponent ]
+      declarations: [ DefaultLayoutSiderComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DefaultComponent);
+    fixture = TestBed.createComponent(DefaultLayoutSiderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

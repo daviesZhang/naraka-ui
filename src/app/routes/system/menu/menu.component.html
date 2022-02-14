@@ -1,3 +1,18 @@
-<p>menu works!</p>
-<span>{{me.username}} test</span>
-<ngx-grid-table style="height: 400px;width: 500px" [getData]="getData" [gridOptions]="gridOptions"></ngx-grid-table>
+<app-json-form #jsonForm [fields]="searchFields" class="search-panel"></app-json-form>
+
+<ng-template #topCenter>
+  <button (click)="grid.refreshRowsData(jsonForm.value)" nzSize="small" nz-button nzType="primary">搜索</button>
+</ng-template>
+<ng-template #cellButton let-node>
+  <button nzSize="small" (click)="test(node)" nz-button nzType="primary">删除</button>
+</ng-template>
+
+<ngx-grid-table
+  #grid
+  [topButton]="{center:topCenter}"
+  [rowButton]="{template:cellButton}"
+  [showFooter]="false"
+  [serverSort]="false"
+  [getData]="getData"
+  [options]="gridOptions">
+</ngx-grid-table>
