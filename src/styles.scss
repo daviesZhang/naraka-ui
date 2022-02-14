@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@ag-grid-enterprise/all-modules/dist/styles/ag-grid.scss";
-@import "~@ag-grid-enterprise/all-modules/dist/styles/ag-theme-alpine/sass/ag-theme-alpine";
+@import "ag-grid-community/src/styles/ag-grid.scss";
+@import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
 @import "dist/ngx-grid-table/assets/ngx-grid-table";
 

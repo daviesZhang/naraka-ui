@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MenuComponent } from './menu/menu.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MenuComponent} from './menu/menu.component';
 import {SystemRoutingModule} from "./system-routing.module";
-import {NgxGridTableModule} from "ngx-grid-table";
-import { UserComponent } from './user/user.component';
+import {UserComponent} from './user/user.component';
 
 import {JsonFormModule} from "@shared/json-form/json-form.module";
-import {SharedModule} from "@shared/shared.module";
+import {GridTableModule} from "@shared/grid-table.module";
 
 
 @NgModule({
@@ -17,9 +16,8 @@ import {SharedModule} from "@shared/shared.module";
   imports: [
     CommonModule,
     SystemRoutingModule,
-    NgxGridTableModule,
-    JsonFormModule,
-    SharedModule
+    GridTableModule,
+    JsonFormModule
   ]
 })
 export class SystemModule { }

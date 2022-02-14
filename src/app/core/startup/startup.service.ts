@@ -1,7 +1,8 @@
 import {Injectable, Injector} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {firstValueFrom} from 'rxjs';
+import {firstValueFrom, switchMap} from 'rxjs';
 import {MeService} from "@core/services/me.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 /**
@@ -12,6 +13,7 @@ import {MeService} from "@core/services/me.service";
 export class StartupService {
   constructor(
     private httpClient: HttpClient,
+    private translateService:TranslateService,
     private meService: MeService,
     private injector: Injector
   ) {
@@ -22,9 +24,8 @@ export class StartupService {
   load(): Promise<any> {
     return new Promise<void>(resolve => {
       this.meService.me().subscribe({
-        next: next => console.log(next),
         error: err => {
-          console.log(err);
+          console.error(err);
           resolve();
         },
         complete: () => resolve()

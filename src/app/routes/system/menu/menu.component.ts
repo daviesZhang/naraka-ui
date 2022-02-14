@@ -1,13 +1,15 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {GridOptions} from "@ag-grid-enterprise/all-modules";
+
 import {map} from "rxjs";
-import {GridTableComponent, RequestData,TemplateRendererComponent} from "ngx-grid-table";
+import {GridTableComponent, RequestData} from "ngx-grid-table";
 import {MeService} from "@core/services/me.service";
 import {CurrentUser} from '@core/modal/me';
 import {HttpClient} from "@angular/common/http";
 import {changeDataToGridTree} from "@shared/utils/tools";
 import {FormlyFieldConfig} from "@ngx-formly/core";
 import {JsonFormComponent} from "@shared/json-form/json-form.component";
+import {GridOptions} from "ag-grid-community";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-menu',
@@ -32,17 +34,22 @@ export class MenuComponent implements OnInit {
         templateOptions: {
           label: 'Code',
           labelWidth: '80px',
-          placeholder: '菜单唯一标识'
-        }
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.menu.code.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.menu.code.placeholder'),
+        },
       },
       {
         key: 'url',
         type: 'input',
         templateOptions: {
-          label: '菜单链接',
           labelWidth: '80px',
-          placeholder: '菜单链接'
-        }
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.menu.url.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.menu.url.placeholder'),
+        },
       }
     ]
   }];
@@ -50,13 +57,13 @@ export class MenuComponent implements OnInit {
   @ViewChild("cellButton",{static:true})
   cellButton!: TemplateRef<void>;
 
-  constructor(public meService: MeService, private http: HttpClient) {
+  constructor(public meService: MeService, private http: HttpClient,private translate:TranslateService) {
     this.me = <CurrentUser>this.meService.me$.value;
   }
 
   ngOnInit(): void {
     this.getData = (params) => {
-      console.log(params);
+
       return this.http.post<Array<any>>("/system/menu/list", null)
         .pipe(map(next => {
           return {
@@ -76,7 +83,7 @@ export class MenuComponent implements OnInit {
         },
         {headerName: 'code', field: 'code'},
         {headerName: 'parent', field: 'parent'},
-        {headerName: 'remark', field: 'remark'},
+        {headerName:  this.translate.instant('page.system.menu.remark.label'), field: 'remark'},
         {headerName: 'createdBy', field: 'createdBy'},
         {headerName: 'createdTime', field: 'createdTime'},
 

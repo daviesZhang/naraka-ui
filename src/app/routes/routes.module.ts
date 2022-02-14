@@ -1,8 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouteRoutingModule } from './routes-routing.module';
-import {SHARED_ZORRO_MODULES} from "@shared/shared-zorro.module";
-
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouteRoutingModule} from './routes-routing.module';
 
 
 @NgModule({

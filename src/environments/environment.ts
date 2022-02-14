@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   useHash:false,
-  pathPrefix:"/api",
+  pathPrefix:"/api"
 };
 
 /*

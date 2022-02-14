@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {GridOptions} from "@ag-grid-enterprise/all-modules";
 import {Observable} from "rxjs";
 import {Statistics} from "ngx-grid-table";
+import {GridOptions} from "ag-grid-community";
 
 @Component({
   selector: 'app-user',

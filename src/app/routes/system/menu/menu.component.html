@@ -1,10 +1,10 @@
 <app-json-form #jsonForm [fields]="searchFields" class="search-panel"></app-json-form>
 
 <ng-template #topCenter>
-  <button (click)="grid.refreshRowsData(jsonForm.value)" nzSize="small" nz-button nzType="primary">搜索</button>
+  <button (click)="grid.refreshRowsData(jsonForm.value)" nzSize="small" nz-button nzType="primary">{{'common.search' |translate}}</button>
 </ng-template>
 <ng-template #cellButton let-node>
-  <button nzSize="small" (click)="test(node)" nz-button nzType="primary">删除</button>
+  <button nzSize="small" (click)="test(node)" nz-button nzType="primary">{{'common.delete'|translate}}</button>
 </ng-template>
 
 <ngx-grid-table

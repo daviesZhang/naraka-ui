@@ -39,14 +39,14 @@
             [nzDisabled]="menu.disabled"
           >
             <i nz-icon [nzType]="menuList[menu.url].icon||''" *ngIf="menuList[menu.url].icon||''"></i>
-            <span>{{ menuList[menu.url].title }}</span>
+            <span>{{ menuList[menu.url].i18n |translate }}</span>
           </li>
           <li
             *ngIf="menu.children"
             nz-submenu
             [nzPaddingLeft]="menu.level * 24"
             [nzOpen]="menu.open"
-            [nzTitle]="menuList[menu.url].title"
+            [nzTitle]="menuList[menu.url].i18n |translate"
             [nzIcon]="menuList[menu.url].icon||null"
           >
             <ul>

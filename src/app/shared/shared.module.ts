@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import {SHARED_ZORRO_MODULES} from "@shared/shared-zorro.module";
 import {IconsProviderModule} from "@shared/icons-provider.module";
 import { LoginModalComponent } from './components/login-modal/login-modal.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 
@@ -25,6 +26,7 @@ import { LoginModalComponent } from './components/login-modal/login-modal.compon
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
+    TranslateModule,
     ...SHARED_ZORRO_MODULES,
     IconsProviderModule,
     LoginModalComponent

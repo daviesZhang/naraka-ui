@@ -1,25 +1,25 @@
 export interface Menu {
   icon?: string;
-  title: string;
+  i18n: string;
 }
 
 
 export const menu: { [key: string]: Menu } = {
   '/system': {
     icon: 'setting',
-    title: '系统管理',
+    i18n: 'menu.system',
   },
   '/system/menu': {
-    title: '菜单管理'
+    i18n: 'menu.system.menu'
   },
   '/system/user': {
-    title: '用户管理'
+    i18n: 'menu.system.user'
   },
   '/system/authority': {
-    title: '权限管理'
+    i18n: 'menu.system.authority'
   },
   '/system/role': {
-    title: '角色管理'
+    i18n: 'menu.system.role'
   }
 
 
