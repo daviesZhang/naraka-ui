@@ -2,8 +2,8 @@
       nz-form
       [nzLayout]="formLayout"
       [formGroup]="form"
-      (ngSubmit)="onSubmit()">
-  <formly-form (modelChange)="onModelChange($event)" class="search-formly"
+      (ngSubmit)="submitHandle()">
+  <formly-form (modelChange)="onModelChange($event)" [ngClass]="layoutClass"
                [form]="form"
                [fields]="fields"
                [model]="defaultModel">

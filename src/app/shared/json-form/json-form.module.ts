@@ -13,12 +13,13 @@ import {SharedModule} from "@shared/shared.module";
   ],
   imports: [
     CommonModule,
-    FormlyModule.forRoot(),
+    FormlyModule,
     NgxFormlyAntdModule,
     SharedModule,
   ],
   exports:[
-    JsonFormComponent
+    JsonFormComponent,
+    FormlyModule
   ]
 })
 export class JsonFormModule { }

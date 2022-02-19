@@ -30,7 +30,6 @@ const GRIDI18NSERVICE_PROVIDES: Provider[] = [
     ...GRIDI18NSERVICE_PROVIDES
   ],
   exports:[
-    SharedModule,
     NgxGridTableModule
   ]
 })

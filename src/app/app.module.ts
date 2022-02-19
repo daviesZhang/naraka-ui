@@ -15,6 +15,8 @@ import {LayoutModule} from "./layout/layout.module";
 import {RoutesModule} from './routes/routes.module';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {FormlyModule} from "@ngx-formly/core";
+import {FormlyConfigModule} from "./formly-config.module";
 
 registerLocaleData(zh);
 
@@ -56,6 +58,7 @@ const INTERCEPTOR_PROVIDES = [
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+
     TranslateModule.forRoot({
       defaultLanguage: 'zh_CN',
       loader: {
@@ -64,6 +67,7 @@ const INTERCEPTOR_PROVIDES = [
         deps: [HttpClient]
       }
     }),
+    FormlyConfigModule.forRoot(),
     RoutesModule,
     LayoutModule
   ],

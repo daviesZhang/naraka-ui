@@ -1,7 +1,23 @@
 {
   "common": {
     "search": "搜索",
-    "delete": "删除"
+    "delete": "删除",
+    "deleteConfirm": "确认要删除吗?",
+    "create": "创建",
+    "createdBy": "创建人",
+    "createdTime": "创建时间",
+    "updatedBy": "更新人",
+    "updatedTime": "更新时间",
+    "submit": "提交",
+    "cancel": "取消",
+    "update": "更新",
+    "validation": {
+      "required": "字段必须填写",
+      "max": "数字必须小于{{value}}",
+      "maxLength": "最大长度不允许超过{{value}}",
+      "minLength": "最小长度必须有{{value}}",
+      "username": "用户名必须由4到8位的数字和字母组成"
+    }
   },
   "page": {
     "system": {
@@ -11,18 +27,20 @@
           "placeholder": "菜单链接"
         },
         "code": {
-          "label":"Code",
+          "label": "唯一标识",
           "placeholder": "唯一标识"
         },
         "remark": {
-          "label":"备注"
+          "label": "备注",
+          "placeholder": "备注"
         }
       }
     }
   },
   "menu": {
     "system": "系统管理",
-    "system.menu": "菜单管理"
+    "system.menu": "菜单管理",
+    "system.user": "用户管理"
   },
   "ngxGridTable.page": "daPage",
   "ngxGridTable.more": "daMore",

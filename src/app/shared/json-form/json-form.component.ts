@@ -16,10 +16,13 @@ export class JsonFormComponent implements OnInit {
   fields!: FormlyFieldConfig[];
 
   @Input()
-  defaultModel: any = {};
+  defaultModel: any;
 
   @Input()
   formLayout:'horizontal' | 'vertical' | 'inline'= 'inline';
+
+  @Input()
+  layoutClass: 'search-grid' | 'create-modal' = 'search-grid';
 
   @Output()
   modelChange= new EventEmitter<any>();
@@ -36,9 +39,10 @@ export class JsonFormComponent implements OnInit {
     this.modelChange.emit(event);
   }
 
-  onSubmit() {
+  submitHandle():any {
     if (this.form.valid) {
       this.submit.emit(this.form);
+      return this.form.value;
     } else {
       Object.values(this.form.controls).forEach(control => {
         if (control.invalid) {
@@ -47,6 +51,7 @@ export class JsonFormComponent implements OnInit {
         }
       });
     }
+    return null;
   }
 
 

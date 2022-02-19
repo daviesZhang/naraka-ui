@@ -32,7 +32,7 @@
       <ng-template #menuTpl let-menus>
         <ng-container *ngFor="let menu of menus">
           <li
-            *ngIf="!menu.children"
+            *ngIf="!menu.children&&menuList[menu.url]"
             nz-menu-item
             [routerLink]="menu.url"
             [nzPaddingLeft]="menu.level * 24"
@@ -42,7 +42,7 @@
             <span>{{ menuList[menu.url].i18n |translate }}</span>
           </li>
           <li
-            *ngIf="menu.children"
+            *ngIf="menu.children&&menuList[menu.url]"
             nz-submenu
             [nzPaddingLeft]="menu.level * 24"
             [nzOpen]="menu.open"
