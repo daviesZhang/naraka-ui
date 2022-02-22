@@ -22,7 +22,6 @@ export class LoginModalComponent implements OnInit {
               private tokenService:TokenService,
               private meService:MeService,
               private http:HttpClient) {
-    this.tokenService.cleanToken();
   }
 
   ngOnInit(): void {
@@ -33,6 +32,7 @@ export class LoginModalComponent implements OnInit {
   }
 
   login(){
+    this.tokenService.cleanToken();
     this.tokenService.requestToken(this.validateForm.value)
       .pipe(switchMap(()=>this.meService.me()))
       .subscribe(response => {

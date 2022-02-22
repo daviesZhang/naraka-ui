@@ -1,9 +1,10 @@
 import {NgModule, Provider} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {NgxGridTableModule, NgxGridTableTranslateService} from "ngx-grid-table";
+import {CommonModule} from '@angular/common';
+import {GridTableConfig, NgxGridTableModule, NgxGridTableTranslateService, RequestDataParams} from "ngx-grid-table";
 import {SharedModule} from "@shared/shared.module";
 import {GridTranslateService} from "@core/services/grid-translate.service";
-
+import {ParamsTransform, QueryPage, QueryParams} from "@core/modal/query";
+import {getOrderParams, mergeQueryParams} from "@shared/utils/tools";
 
 
 /**
@@ -15,9 +16,21 @@ import {GridTranslateService} from "@core/services/grid-translate.service";
 const GRIDI18NSERVICE_PROVIDES: Provider[] = [
   {
     provide: NgxGridTableTranslateService,
-    useClass:GridTranslateService
+    useClass: GridTranslateService
   }
 ]
+export const config: GridTableConfig =
+  {
+    dataParams: (params: RequestDataParams): QueryPage => {
+      const {current, size, orderBys, ...other} = params;
+      let queryParams = new QueryParams();
+      if (orderBys) {
+        queryParams = getOrderParams(orderBys);
+      }
+      return Object.assign(new QueryPage(current, size, queryParams), other);
+    }
+
+  }
 
 
 @NgModule({
@@ -25,12 +38,13 @@ const GRIDI18NSERVICE_PROVIDES: Provider[] = [
   imports: [
     CommonModule,
     SharedModule,
-    NgxGridTableModule,
-  ],providers:[
+    NgxGridTableModule.forRoot(config),
+  ], providers: [
     ...GRIDI18NSERVICE_PROVIDES
   ],
-  exports:[
+  exports: [
     NgxGridTableModule
   ]
 })
-export class GridTableModule { }
+export class GridTableModule {
+}

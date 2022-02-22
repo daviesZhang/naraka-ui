@@ -2,17 +2,24 @@ import {Injectable, TemplateRef} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {FormlyFieldConfig} from "@ngx-formly/core";
 import {CommonModalComponent} from "@shared/common-modal/common-modal/common-modal.component";
-import {filter, firstValueFrom, Observable} from "rxjs";
+import {filter, firstValueFrom, Observable, Subject, tap} from "rxjs";
 import {NzSafeAny} from "ng-zorro-antd/core/types";
 import {ModalOptions} from "ng-zorro-antd/modal/modal-types";
 import {TranslateService} from "@ngx-translate/core";
+import {FormlyValueChangeEvent} from "@ngx-formly/core/lib/models/fieldconfig";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CrudModalService {
+export class CrudHelperService {
 
-  constructor(private modal:NzModalService,private translate:TranslateService) { }
+
+
+  constructor(private modal:NzModalService,private translate:TranslateService) {
+
+
+
+  }
 
 
   /**
@@ -22,7 +29,10 @@ export class CrudModalService {
    * @param request 请求方法
    * @param data 默认数据
    */
-  createCommonModal(title:string, content: FormlyFieldConfig[]|string|TemplateRef<NzSafeAny>, request: (data: any) => Observable<any>,data?:any):Observable<any>{
+  createCommonModal(title:string,
+                    content: FormlyFieldConfig[]|string|TemplateRef<NzSafeAny>,
+                    request: (data: any) => Observable<any>,
+                    data?:any):Observable<any>{
 
    return this.modal.create({
       nzTitle: title,

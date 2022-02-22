@@ -1,6 +1,16 @@
-<ngx-grid-table
-  style="width: 500px"
-  [getData]="getData"
-  [options]="gridOptions">
+<app-json-form #jsonForm [fields]="searchFields" class="search-panel"></app-json-form>
 
+<ng-template #topCenter>
+  <button
+    (click)="grid.refreshRowsData()"
+    nzSize="small"
+    nz-button
+    nzType="primary">{{'common.search' |translate}}</button>
+</ng-template>
+
+<ngx-grid-table #grid
+                [topButton]="{center:topCenter}"
+                [getData]="getData"
+                (gridReady)="onGridReady($event,jsonForm)"
+                [options]="gridOptions">
 </ngx-grid-table>

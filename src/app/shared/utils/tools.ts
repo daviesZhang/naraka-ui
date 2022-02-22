@@ -1,4 +1,6 @@
 import {DatePipe, formatCurrency} from '@angular/common';
+import {ParamsTransform, QueryField, QueryParams} from '@core/modal/query';
+import {OrderBy} from "ngx-grid-table";
 
 
 /**
@@ -301,4 +303,47 @@ export function sum(data: Array<{ [key: string]: any }>, keys: Array<string>, cu
 
 export function amountFormatter(value: string, digitsInfo?: string | undefined) {
   return formatCurrency(parseFloat(value), 'zh_CN', '', 'CNY', digitsInfo);
+}
+
+export function mergeQueryParams(target: QueryParams, source: QueryParams): QueryParams {
+  Object.keys(source).forEach(key => {
+    const value = target[key];
+    const sourceValue = source[key];
+    if (value) {
+      if (Array.isArray(sourceValue)) {
+        target[key] = Array.isArray(value) ? value.concat(sourceValue) : [value, ...sourceValue];
+      } else {
+        target[key] = Array.isArray(value) ? value.concat(sourceValue) : [value, sourceValue];
+      }
+    } else {
+      target[key] = sourceValue;
+    }
+  });
+  return target;
+}
+
+export function getOrderParams(order: OrderBy): QueryParams {
+  const query = new QueryParams();
+  Object.keys(order).forEach(key => {
+    query[key] = {type: order[key] === 'asc' ? 'ORDER_ASC' : 'ORDER_DESC'}
+  });
+  return query;
+}
+
+
+/**
+ *
+ * @param value
+ * @param transform
+ */
+export function transformQueryParams(value: any, transform: ParamsTransform): QueryParams {
+
+  const queryParams = new QueryParams();
+  Object.keys(value).forEach(key => {
+    const v = value[key];
+    if (v !== null && v !== undefined && v !== '' && (!Array.isArray(v) || v.length)) {
+      Object.assign(queryParams, {[key]: (transform[key] ? transform[key](value[key]) : value[key])});
+    }
+  });
+  return queryParams;
 }

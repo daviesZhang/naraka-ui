@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 
 import {map} from "rxjs";
-import {RequestData} from "ngx-grid-table";
+import {DefaultNgxGridTableConfig, RequestData, RequestDataParams} from "ngx-grid-table";
 import {HttpClient} from "@angular/common/http";
 import {changeDataToGridTree} from "@shared/utils/tools";
 import {FormlyFieldConfig} from "@ngx-formly/core";
 import {GridOptions} from "ag-grid-community";
 import {TranslateService} from "@ngx-translate/core";
 import {NzModalService} from "ng-zorro-antd/modal";
-import {CrudModalService} from "@core/services/crud-modal.service";
+import {CrudHelperService} from "@core/services/crud-helper.service";
 import {ValidationService} from "@core/services/validation.service";
 import {AbstractGridTablePage} from "../../abstract-grid-table-page";
+import {PageItem} from "@core/modal/page";
 
 
 @Component({
@@ -22,8 +23,7 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
 
   gridOptions!: GridOptions;
 
-  getData!: RequestData<{ [key: string]: any }>;
-
+  getData!: RequestData<PageItem,RequestDataParams>;
 
   searchFields: FormlyFieldConfig[] = [{
     fieldGroupClassName: 'grid-search-panel',
@@ -33,7 +33,7 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
         type: 'input',
         templateOptions: {
           label: 'Code',
-          labelWidth: '80px',
+          labelWidth: 80,
         },
         expressionProperties: {
           'templateOptions.label': this.translate.stream('page.system.menu.code.label'),
@@ -44,7 +44,7 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
         key: 'url',
         type: 'input',
         templateOptions: {
-          labelWidth: '80px',
+          labelWidth: 80,
         },
         expressionProperties: {
           'templateOptions.label': this.translate.stream('page.system.menu.url.label'),
@@ -55,58 +55,7 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
   }];
 
 
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'code',
-      type: 'input',
-      templateOptions: {
-        label: 'Code',
-        labelWidth: '80px',
-        required: true
-      },
-      validation: {
-        messages: {
-          required: this.validationMessageService.requiredMessage
-        }
-      },
-      validators: {
-        // username:this.validationMessageService.username()
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translate.stream('page.system.menu.code.label'),
-        'templateOptions.placeholder': this.translate.stream('page.system.menu.code.placeholder'),
-      }
-    },
-    {
-      key: 'url',
-      type: 'input',
-      templateOptions: {
-        labelWidth: '80px',
-        required: true,
-      },
-      validation: {
-        messages: {
-          required: this.validationMessageService.requiredMessage,
-        }
-      },
 
-      expressionProperties: {
-        'templateOptions.label': this.translate.stream('page.system.menu.url.label'),
-        'templateOptions.placeholder': this.translate.stream('page.system.menu.url.placeholder'),
-      },
-    },
-    {
-      key: 'remark',
-      type: 'input',
-      templateOptions: {
-        labelWidth: '80px',
-      },
-      expressionProperties: {
-        'templateOptions.label': this.translate.stream('page.system.menu.remark.label'),
-        'templateOptions.placeholder': this.translate.stream('page.system.menu.remark.placeholder'),
-      },
-    }
-  ];
 
 
 
@@ -114,7 +63,7 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
     private modal: NzModalService,
     private http: HttpClient,
     private validationMessageService: ValidationService,
-    private crud: CrudModalService,
+    private crud: CrudHelperService,
     private translate: TranslateService) {
     super();
   }
@@ -154,20 +103,74 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
 
   search() {
     if (this.gridTable) {
-      this.gridTable.searchRowsData(this.jsonForm?.value);
+      this.gridTable.searchRowsData(this.searchForm?.value);
     }
+  }
+
+  private createFields():FormlyFieldConfig[]{
+    return  [
+      {
+        key: 'code',
+        type: 'input',
+        templateOptions: {
+          label: 'Code',
+          labelWidth: 80,
+          required: true
+        },
+        validation: {
+          messages: {
+            required: this.validationMessageService.requiredMessage
+          }
+        },
+        validators: {
+          // username:this.validationMessageService.username()
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.menu.code.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.menu.code.placeholder'),
+        }
+      },
+      {
+        key: 'url',
+        type: 'input',
+        templateOptions: {
+          labelWidth: 80,
+          required: true,
+        },
+        validation: {
+          messages: {
+            required: this.validationMessageService.requiredMessage,
+          }
+        },
+
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.menu.url.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.menu.url.placeholder'),
+        },
+      },
+      {
+        key: 'remark',
+        type: 'input',
+        templateOptions: {
+          labelWidth: 80,
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.menu.remark.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.menu.remark.placeholder'),
+        },
+      }
+    ];
   }
 
   refresh() {
     if (this.gridTable) {
-      this.gridTable.refreshRowsData(this.jsonForm?.value);
+      this.gridTable.refreshRowsData(this.searchForm?.value);
     }
   }
 
   create(parent: number = 0) {
-
     this.crud.createCommonModal(this.translate.instant('common.create'),
-      this.fields,
+      this.createFields(),
       data => this.http.post('/system/menu',
         Object.assign(data, {parent})).pipe(map(() => true)))
       .subscribe(next => next && this.search())
@@ -175,10 +178,10 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
 
   update(value: { [key: string]: any }) {
     this.crud.createCommonModal(this.translate.instant('common.update'),
-      this.fields,
+      this.createFields(),
       data => this.http.put('/system/menu',
         Object.assign({id: value['id']}, data)).pipe(map(() => true)), value)
-      .subscribe(next => next && this.refresh())
+      .subscribe(next => next && this.refresh());
   }
 
 

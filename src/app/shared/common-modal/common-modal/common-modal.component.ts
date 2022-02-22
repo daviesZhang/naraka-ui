@@ -94,6 +94,7 @@ export class CommonModalComponent implements OnInit {
   }
   cancel(){
     this.modal.close(false);
+
   }
 
   destroyModal(): void {

@@ -11,6 +11,7 @@ const routes: Routes = [
   {
     path: '',
     component: DefaultComponent,
+
     children: [
       // 业务子模块
      { path: 'system', loadChildren: () => import('./system/system.module').then(m => m.SystemModule) },

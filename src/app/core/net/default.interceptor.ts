@@ -72,7 +72,14 @@ export class DefaultInterceptor implements HttpInterceptor {
       return;
     }
 
-    const errortext = CODEMESSAGE[ev.status] || ev.statusText;
+    let errortext = CODEMESSAGE[ev.status] || ev.statusText;
+    if (ev instanceof HttpErrorResponse) {
+      if (ev.error&&ev.error.message){
+        errortext = ev.error.message;
+        this.messageService.error(errortext);
+        return;
+      }
+    }
     this.notification.error(`请求错误 ${ev.status}: ${ev.url}`, errortext);
   }
 
