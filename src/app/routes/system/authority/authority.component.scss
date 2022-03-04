@@ -1,0 +1,9 @@
+:host-context(.ant-modal-body,.ag-full-width-container,.ant-drawer-body) {
+
+}
+:host{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+}

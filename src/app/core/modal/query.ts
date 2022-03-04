@@ -1,5 +1,5 @@
 export const QueryFieldTypeArray = ['STARTS_WITH', 'ENDS_WITH', 'CONTAINS', 'LIKE', 'LESSTHAN', 'LESSTHANEQUAL',
-  'EQUALS', 'GREATERTHANEQUAL', 'GREATERTHANE', 'ORDER_DESC', 'ORDER_ASC'] as const;
+  'EQUALS','NOT_EQUALS', 'GREATERTHANEQUAL', 'GREATERTHANE', 'ORDER_DESC', 'ORDER_ASC'] as const;
 
 export type QueryFieldType = typeof QueryFieldTypeArray[number];
 
@@ -33,6 +33,6 @@ export class QueryPage {
 }
 
 export class ParamsTransform {
-  [key: string]: (value: unknown) => QueryField | Array<QueryField|string | number | boolean> | string | number | boolean;
+  [key: string]: (value: any) => QueryField | Array<QueryField|string | number | boolean> | string | number | boolean;
 
 }

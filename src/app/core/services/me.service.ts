@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, map, Observable, tap} from "rxjs";
+import {BehaviorSubject, map, Observable, tap, zip} from "rxjs";
 import {CurrentUser, ICurrentUser} from "@core/modal/me";
 
 
@@ -16,8 +16,9 @@ export class MeService {
 
 
   me(): Observable<CurrentUser> {
-    return this.httpClient.get<ICurrentUser>('/me')
-      .pipe(map(next=>new CurrentUser(next)),
-        tap(next => this.me$.next(next)));
+    return zip(this.httpClient.get("/admin/system/menu/own"), this.httpClient.get<ICurrentUser>('/admin/me'))
+      .pipe(map(([menus, user]) =>
+        new CurrentUser(Object.assign({menus}, user))
+      ), tap(next => this.me$.next(next)));
   }
 }

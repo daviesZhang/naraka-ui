@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MeService} from "@core/services/me.service";
-import {filter, map, Observable, tap} from "rxjs";
+import {filter, map, Observable} from "rxjs";
 import {CurrentUser} from "@core/modal/me";
-import { getTreeData} from "@shared/utils/tools";
+import {getTreeData} from "@shared/utils/tools";
 import {menu} from "@core/modal/menu";
 
 @Component({
   selector: 'app-default',
   templateUrl: './default.component.html',
-  styleUrls: ['./default.component.scss']
+  styleUrls: ['./default.component.scss'],
+  encapsulation:ViewEncapsulation.None,
 })
 export class DefaultComponent implements OnInit {
 

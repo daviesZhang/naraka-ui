@@ -9,11 +9,17 @@
 </ng-template>
 
 <ng-template #left>
-  <button (click)="create()" nzSize="small" nz-button nzType="primary">{{'common.create' |translate}}</button>
+  <button  (click)="create()" nzSize="small" nz-button nzType="primary">{{'common.create' |translate}}</button>
+</ng-template>
+
+<ng-template #buttons let-node>
+  <button  (click)="delete(node.data)" nzSize="small" nz-button nzType="primary">{{'common.delete' |translate}}</button>
 </ng-template>
 
 <ngx-grid-table #grid
+                [gridTablePagination]="gridTablePagination"
                 [topButton]="{center,left}"
+                [rowButton]="rowButton!==undefined?rowButton:({template:buttons})"
                 [getData]="getData"
                 (gridReady)="onGridReady($event,jsonForm)"
                 [options]="gridOptions">

@@ -12,6 +12,7 @@ import {CrudHelperService} from "@core/services/crud-helper.service";
 import {ValidationService} from "@core/services/validation.service";
 import {AbstractGridTablePage} from "../../abstract-grid-table-page";
 import {PageItem} from "@core/modal/page";
+import {QueryPage} from '@core/modal/query';
 
 
 @Component({
@@ -20,10 +21,11 @@ import {PageItem} from "@core/modal/page";
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent extends AbstractGridTablePage implements OnInit {
+  request: RequestData<any, QueryPage>;
 
   gridOptions!: GridOptions;
 
-  getData!: RequestData<PageItem,RequestDataParams>;
+  //override getData!: RequestData<PageItem,RequestDataParams>;
 
   searchFields: FormlyFieldConfig[] = [{
     fieldGroupClassName: 'grid-search-panel',
@@ -55,10 +57,6 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
   }];
 
 
-
-
-
-
   constructor(
     private modal: NzModalService,
     private http: HttpClient,
@@ -66,19 +64,16 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
     private crud: CrudHelperService,
     private translate: TranslateService) {
     super();
+    this.request = (params) =>
+      this.http.post<Array<any>>("/admin/system/menu/list", null).pipe(map(next => {
+        return {
+          items: changeDataToGridTree(next, {parent: item => item.parent, id: item => item.id}),
+          total: next.length
+        }
+      }));
   }
 
   ngOnInit(): void {
-    this.getData = (params) => {
-
-      return this.http.post<Array<any>>("/system/menu/list", null)
-        .pipe(map(next => {
-          return {
-            items: changeDataToGridTree(next, {parent: item => item.parent, id: item => item.id}),
-            total: next.length
-          }
-        }));
-    };
     this.gridOptions = {
       treeData: true,
       getDataPath: data => data.path,
@@ -90,7 +85,7 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
           cellRenderer: 'agGroupCellRenderer',
           showRowGroup: true
         },
-        {headerName:this.translate.instant('page.system.menu.code.label'), field: 'code'},
+        {headerName: this.translate.instant('page.system.menu.code.label'), field: 'code'},
         {headerName: this.translate.instant('page.system.menu.remark.label'), field: 'remark'},
         {headerName: this.translate.instant('common.createdBy'), field: 'createdBy'},
         {headerName: this.translate.instant('common.createdTime'), field: 'createdTime'},
@@ -107,8 +102,8 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
     }
   }
 
-  private createFields():FormlyFieldConfig[]{
-    return  [
+  private createFields(): FormlyFieldConfig[] {
+    return [
       {
         key: 'code',
         type: 'input',
@@ -171,7 +166,7 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
   create(parent: number = 0) {
     this.crud.createCommonModal(this.translate.instant('common.create'),
       this.createFields(),
-      data => this.http.post('/system/menu',
+      data => this.http.post('/admin/system/menu',
         Object.assign(data, {parent})).pipe(map(() => true)))
       .subscribe(next => next && this.search())
   }
@@ -179,16 +174,15 @@ export class MenuComponent extends AbstractGridTablePage implements OnInit {
   update(value: { [key: string]: any }) {
     this.crud.createCommonModal(this.translate.instant('common.update'),
       this.createFields(),
-      data => this.http.put('/system/menu',
+      data => this.http.put('/admin/system/menu',
         Object.assign({id: value['id']}, data)).pipe(map(() => true)), value)
       .subscribe(next => next && this.refresh());
   }
 
 
-
   delete(parent: number) {
     this.crud.simpleDeleteConfirmModal(
-      () => this.http.delete(`/system/menu/${parent}`).pipe(map(() => true)))
+      () => this.http.delete(`/admin/system/menu/${parent}`).pipe(map(() => true)))
       .subscribe(() => this.search());
   }
 }

@@ -8,12 +8,19 @@ import {JsonFormModule} from "@shared/json-form/json-form.module";
 import {GridTableModule} from "@shared/grid-table.module";
 import {CommonModalModule} from "@shared/common-modal/common-modal.module";
 import {SharedModule} from "@shared/shared.module";
+import {RoleComponent} from './role/role.component';
+import {AuthorityComponent} from './authority/authority.component';
+import {OperationLogComponent} from './operation-log/operation-log.component';
+import {NzDrawerModule} from "ng-zorro-antd/drawer";
 
 
 @NgModule({
   declarations: [
     MenuComponent,
-    UserComponent
+    UserComponent,
+    RoleComponent,
+    AuthorityComponent,
+    OperationLogComponent
   ],
   imports: [
     CommonModule,
@@ -21,8 +28,9 @@ import {SharedModule} from "@shared/shared.module";
     SystemRoutingModule,
     GridTableModule,
     JsonFormModule,
-
+    NzDrawerModule,
     CommonModalModule,
   ]
 })
-export class SystemModule { }
+export class SystemModule {
+}

@@ -9,6 +9,12 @@
     "updatedBy": "更新人",
     "updatedTime": "更新时间",
     "submit": "提交",
+    "today": "今天",
+    "week": "本周",
+    "month": "本月",
+    "lastMonth": "上月",
+    "nextMonth": "下月",
+    "previousMonth": "前一个月",
     "cancel": "取消",
     "remark": "备注",
     "enable": "启用",
@@ -19,7 +25,10 @@
       "max": "数字必须小于{{value}}",
       "maxLength": "最大长度不允许超过{{value}}",
       "minLength": "最小长度必须有{{value}}",
-      "username": "用户名必须由4到8位的数字和字母组成"
+      "username": "用户名必须由4到8位的数字和字母组成",
+      "phone": "电话号码需由11位数字组成",
+      "email": "电子邮箱需要存在且仅存在一个@字符并包含邮箱域名",
+      "password": "密码不能由纯数字组成,长度需大于等于6位且小于16位~"
     }
   },
   "page": {
@@ -39,6 +48,7 @@
         }
       },
       "user": {
+        "create": "创建新用户",
         "status": {
           "label": "用户状态",
           "placeholder": "用户状态"
@@ -47,7 +57,11 @@
           "label": "用户名称",
           "placeholder": "用户名称"
         }, "email": {
-          "label": "用户名称"
+          "label": "电子邮箱",
+          "placeholder": "电子邮箱"
+        }, "password": {
+          "label": "密码",
+          "placeholder": "用户密码"
         }, "phone": {
           "label": "电话号码",
           "placeholder": "电话号码"
@@ -64,6 +78,38 @@
           "label": "用户类型",
           "placeholder": "用户类型"
         }
+      },
+      "role": {
+        "showAuthority": "权限列表",
+        "assignAuthority": "分配权限",
+        "rode": {
+          "label": "唯一标识",
+          "placeholder": "角色的唯一标识"
+        },
+        "name": {
+          "label": "角色名称",
+          "placeholder": "角色名称"
+        }
+      },
+      "authority": {
+
+        "resource": {
+          "label": "权限资源",
+          "placeholder": "资源内容"
+        },
+        "resourceType": {
+          "label": "资源类型",
+          "placeholder": "资源类型"
+        },
+        "processor": {
+          "label": "处理类型",
+          "placeholder": "对资源特定字段的处理动作"
+        },
+        "processorValue": {
+          "label": "处理内容",
+          "placeholder": "待处理的字段,内容"
+        }
+
       }
     }
 
@@ -71,7 +117,9 @@
   "menu": {
     "system": "系统管理",
     "system.menu": "菜单管理",
-    "system.user": "用户管理"
+    "system.user": "用户管理",
+    "system.role": "角色管理",
+    "system.authority": "权限管理"
   },
   "ngxGridTable.page": "daPage",
   "ngxGridTable.more": "daMore",

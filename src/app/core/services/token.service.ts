@@ -17,7 +17,7 @@ export class TokenService {
 
 
   requestToken(data:{[key:string]:any}):Observable<string|null>{
-    return this.http.post<HttpResponse<any>>("/token", data, {observe: 'response'})
+    return this.http.post<HttpResponse<any>>("/admin/token", data, {observe: 'response'})
       .pipe(map(response => response.headers.get(this.header_token_name)));
   }
 

@@ -15,8 +15,26 @@ export class ValidationService {
 
   username() {
     return {
-      expression: (c: AbstractControl, field: FormlyFieldConfig) => !c.value || /^(?![0-9]+$)(?![a-z]+$)[0-9a-z]{4,8}$/.test(c.value),
+      expression: (c: AbstractControl, field: FormlyFieldConfig) => !c.value || /^(?![0-9]+$)[0-9a-z]{4,8}$/.test(c.value),
       message: (error: any, field: FormlyFieldConfig) => this.translateService.get("common.validation.username"),
+    };
+  }
+  password() {
+    return {
+      expression: (c: AbstractControl, field: FormlyFieldConfig) => !c.value || /^(?![0-9]+$).{6,16}$/.test(c.value),
+      message: (error: any, field: FormlyFieldConfig) => this.translateService.get("common.validation.password"),
+    };
+  }
+  phone() {
+    return {
+      expression: (c: AbstractControl, field: FormlyFieldConfig) => !c.value || /^1\d{10}$/.test(c.value),
+      message: (error: any, field: FormlyFieldConfig) => this.translateService.get("common.validation.phone"),
+    };
+  }
+  email() {
+    return {
+      expression: (c: AbstractControl, field: FormlyFieldConfig) => !c.value || /^[^@]*@[^.@]+\.[^.@]+$/.test(c.value),
+      message: (error: any, field: FormlyFieldConfig) => this.translateService.get("common.validation.email"),
     };
   }
 
