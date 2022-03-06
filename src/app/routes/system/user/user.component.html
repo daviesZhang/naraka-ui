@@ -7,9 +7,57 @@
     nz-button
     nzType="primary">{{'common.search' |translate}}</button>
 </ng-template>
+<ng-template #phoneTemplate let-node>
+  <ng-container *acl="{resource:getPhoneApi,method:'get'}">
+    <i class="see" *ngIf="!node.data.fullPhone" (click)="seePhone(node)"
+       nz-icon
+       nzType="eye"
+       nzTheme="outline"></i>
+    <i class="see" *ngIf="node.data.fullPhone==='loading'"
 
+       nz-icon
+       nzType="loading"
+       nzTheme="outline"></i>
+  </ng-container>
+  {{node.data.phone}}
+  <i class="edit" *acl="{resource:putPhoneApi,method:'put'}" (click)="updatePhone(node)"
+     nz-icon
+     nzType="edit"
+     nzTheme="outline"></i>
+</ng-template>
+<ng-template #emailTemplate let-node>
+  <ng-container *acl="{resource:getEmailApi,method:'get'}">
+    <i class="see" *ngIf="!node.data.fullEmail" (click)="seeEmail(node)"
+       nz-icon
+       nzType="eye"
+       nzTheme="outline"></i>
+    <i class="see" *ngIf="node.data.fullEmail==='loading'"
+
+       nz-icon
+       nzType="loading"
+       nzTheme="outline"></i>
+  </ng-container>
+  {{node.data.email}}
+  <i class="edit" *acl="{resource:putEmailApi,method:'put'}" (click)="updateEmail(node)"
+     nz-icon
+     nzType="edit"
+     nzTheme="outline"></i>
+</ng-template>
+
+<ng-template #roleTemplate let-node>
+
+  {{node.data.role}}
+  <i *acl="{resource:assignRoleApi}" (click)="assignRole(node.data)"
+     class="edit"
+     nz-icon
+     nzType="edit"
+     nzTheme="outline"></i>
+</ng-template>
 <ng-template #left>
-  <button (click)="create()" nzSize="small" nz-button nzType="primary">{{'common.create' |translate}}</button>
+  <button *acl="{resource:createUserApi}" (click)="create()"
+          nzSize="small"
+          nz-button
+          nzType="primary">{{'common.create' |translate}}</button>
 </ng-template>
 
 <ngx-grid-table #grid

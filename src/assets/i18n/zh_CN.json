@@ -16,9 +16,12 @@
     "nextMonth": "下月",
     "previousMonth": "前一个月",
     "cancel": "取消",
+    "owned": "已拥有",
+    "notOwned": "未拥有",
     "remark": "备注",
     "enable": "启用",
     "disable": "禁用",
+    "actionComplete": "操作完成",
     "update": "更新",
     "validation": {
       "required": "字段必须填写",
@@ -48,6 +51,7 @@
         }
       },
       "user": {
+        "assign": "分配角色",
         "create": "创建新用户",
         "status": {
           "label": "用户状态",
@@ -56,33 +60,42 @@
         "username": {
           "label": "用户名称",
           "placeholder": "用户名称"
-        }, "email": {
+        },
+        "email": {
           "label": "电子邮箱",
           "placeholder": "电子邮箱"
-        }, "password": {
+        },
+        "password": {
           "label": "密码",
           "placeholder": "用户密码"
-        }, "phone": {
+        },
+        "phone": {
           "label": "电话号码",
           "placeholder": "电话号码"
-        }, "passwordExpireTime": {
+        },
+        "passwordExpireTime": {
           "label": "密码过期",
           "placeholder": "密码过期时间"
-        }, "roleCode": {
+        },
+        "roleCode": {
           "label": "角色标识",
           "placeholder": "角色标识"
-        }, "role": {
+        },
+        "role": {
           "label": "角色名称",
           "placeholder": "角色名称"
-        }, "type": {
+        },
+        "type": {
           "label": "用户类型",
           "placeholder": "用户类型"
         }
       },
       "role": {
         "showAuthority": "权限列表",
-        "assignAuthority": "分配权限",
-        "rode": {
+        "assignAuthority": "授予权限",
+        "assignEnd": "操作完成",
+        "unAssignAuthority": "移除权限",
+        "code": {
           "label": "唯一标识",
           "placeholder": "角色的唯一标识"
         },
@@ -92,16 +105,19 @@
         }
       },
       "authority": {
-
         "resource": {
           "label": "权限资源",
           "placeholder": "资源内容"
         },
         "resourceType": {
+          "0": "接口",
+          "1": "菜单",
           "label": "资源类型",
           "placeholder": "资源类型"
         },
         "processor": {
+          "0": "过滤",
+          "1": "脱敏",
           "label": "处理类型",
           "placeholder": "对资源特定字段的处理动作"
         },
@@ -109,10 +125,8 @@
           "label": "处理内容",
           "placeholder": "待处理的字段,内容"
         }
-
       }
     }
-
   },
   "menu": {
     "system": "系统管理",

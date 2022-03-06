@@ -12,6 +12,8 @@ import {RoleComponent} from './role/role.component';
 import {AuthorityComponent} from './authority/authority.component';
 import {OperationLogComponent} from './operation-log/operation-log.component';
 import {NzDrawerModule} from "ng-zorro-antd/drawer";
+import { RoleAuthorityComponent } from './role/role-authority/role-authority.component';
+import {NzSwitchModule} from "ng-zorro-antd/switch";
 
 
 @NgModule({
@@ -20,17 +22,19 @@ import {NzDrawerModule} from "ng-zorro-antd/drawer";
     UserComponent,
     RoleComponent,
     AuthorityComponent,
-    OperationLogComponent
+    OperationLogComponent,
+    RoleAuthorityComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    SystemRoutingModule,
-    GridTableModule,
-    JsonFormModule,
-    NzDrawerModule,
-    CommonModalModule,
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        SystemRoutingModule,
+        GridTableModule,
+        JsonFormModule,
+        NzDrawerModule,
+        CommonModalModule,
+        NzSwitchModule,
+    ]
 })
 export class SystemModule {
 }

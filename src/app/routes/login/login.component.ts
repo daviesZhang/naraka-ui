@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   }
   successCall= ()=> {
 
-    this.router.navigateByUrl("/system/menu").then();
+    this.router.navigateByUrl("/").then();
   };
 
 

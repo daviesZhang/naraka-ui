@@ -2,7 +2,7 @@ import {Injectable, TemplateRef} from '@angular/core';
 import {NzModalService} from "ng-zorro-antd/modal";
 import {FormlyFieldConfig} from "@ngx-formly/core";
 import {CommonModalComponent} from "@shared/common-modal/common-modal/common-modal.component";
-import {filter, firstValueFrom, Observable, Subject, tap} from "rxjs";
+import {filter, firstValueFrom, map, Observable, Subject, tap} from "rxjs";
 import {NzSafeAny} from "ng-zorro-antd/core/types";
 import {ModalOptions} from "ng-zorro-antd/modal/modal-types";
 import {TranslateService} from "@ngx-translate/core";
@@ -24,15 +24,15 @@ export class CrudHelperService {
    * range查询时间区间
    * @param getSelect 获取当前选择的时间,如果提供这个方法,增加一个动态获取上个月区间的按钮
    */
-  queryDateRanges(getSelect?:()=>Array<Date>|null) {
+  queryDateRanges(getSelect?: () => Array<Date> | null) {
     const now = new Date();
-    let range= {
+    let range = {
       [this.translate.instant('common.today')]: [startOfToday(), endOfToday()],
       [this.translate.instant('common.week')]: [startOfWeek(now), endOfWeek(now)],
       [this.translate.instant('common.month')]: [startOfMonth(now), endOfMonth(now)],
       [this.translate.instant('common.lastMonth')]: [addMonths(startOfMonth(now), -1), endOfMonth(addMonths(now, -1))],
     };
-    if (getSelect){
+    if (getSelect) {
       Object.assign(range, {
         [this.translate.instant('common.previousMonth')]: () => {
           let select = now;
@@ -44,7 +44,8 @@ export class CrudHelperService {
           }
           const lastMoth = addMonths(select, -1);
           return [startOfMonth(lastMoth), endOfMonth(lastMoth)];
-        }});
+        }
+      });
     }
     return range;
   }
@@ -115,7 +116,7 @@ export class CrudHelperService {
         request,
         showFooter: false
       },
-      nzOnOk: () => firstValueFrom(request(null)),
+      nzOnOk: () => firstValueFrom(request(null).pipe(map(next => (next === null || next === undefined) ? true : next))),
     };
     return this.modal.confirm(options).afterClose.asObservable().pipe(filter(next => !!next));
   }

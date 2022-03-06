@@ -6,12 +6,16 @@ import {SHARED_ZORRO_MODULES} from "@shared/shared-zorro.module";
 import {IconsProviderModule} from "@shared/icons-provider.module";
 import { LoginModalComponent } from './components/login-modal/login-modal.component';
 import {TranslateModule} from "@ngx-translate/core";
+import { AclDirective } from './acl.directive';
+
 
 
 
 @NgModule({
   declarations: [
-    LoginModalComponent
+    LoginModalComponent,
+    AclDirective
+
   ],
   imports: [
     CommonModule,
@@ -21,7 +25,7 @@ import {TranslateModule} from "@ngx-translate/core";
     ...SHARED_ZORRO_MODULES,
     IconsProviderModule,
   ],
-  exports:[
+  exports: [
     CommonModule,
     FormsModule,
     RouterModule,
@@ -29,7 +33,9 @@ import {TranslateModule} from "@ngx-translate/core";
     TranslateModule,
     ...SHARED_ZORRO_MODULES,
     IconsProviderModule,
-    LoginModalComponent
+    LoginModalComponent,
+    AclDirective
+
   ]
 })
 export class SharedModule { }

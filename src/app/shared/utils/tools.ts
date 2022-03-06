@@ -1,6 +1,7 @@
 import {DatePipe, formatCurrency} from '@angular/common';
 import {ParamsTransform, QueryField, QueryParams} from '@core/modal/query';
 import {OrderBy} from "ngx-grid-table";
+import {Observable, switchMap, timer} from "rxjs";
 
 
 /**
@@ -346,4 +347,24 @@ export function transformQueryParams(value: any, transform: ParamsTransform): Qu
     }
   });
   return queryParams;
+}
+
+/**
+ * rxjs 间隔重试
+ * @param retry
+ * @param scalingDuration
+ * @param onError 当发生错误时调用
+ */
+export function rxRetryWhen(retry = 3, scalingDuration = 1000,onError?:((error:any,index:number)=>void)) {
+  return (errors$: Observable<any>):Observable<any> => {
+    return errors$.pipe(switchMap((error, index) => {
+      if (onError){
+        onError(error, index);
+      }
+      if (index >= retry) {
+        throw error;
+      }
+      return timer(scalingDuration * (index + 1));
+    }))
+  };
 }

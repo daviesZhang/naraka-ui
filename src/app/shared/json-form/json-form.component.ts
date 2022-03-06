@@ -46,6 +46,7 @@ export class JsonFormComponent implements OnInit {
     } else {
       Object.values(this.form.controls).forEach(control => {
         if (control.invalid) {
+          control.markAsTouched();
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
         }

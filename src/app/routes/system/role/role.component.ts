@@ -15,6 +15,7 @@ import {CrudHelperService} from "@core/services/crud-helper.service";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {AuthorityComponent} from "../authority/authority.component";
 import {NzDrawerService} from "ng-zorro-antd/drawer";
+import {RoleAuthorityComponent} from "./role-authority/role-authority.component";
 
 @Component({
   selector: 'app-role',
@@ -25,6 +26,8 @@ export class RoleComponent extends AbstractGridTablePage implements OnInit {
 
   request = (params: RequestDataType<QueryPage>): Observable<Page<PageItem>> => this.http.post<Page<PageItem>>("/admin/system/role/list", params);
 
+
+  showAuthorityApi = "/admin/system/role/authority";
 
   constructor(private http: HttpClient,
               private helperService: CrudHelperService,
@@ -162,22 +165,12 @@ export class RoleComponent extends AbstractGridTablePage implements OnInit {
   showAuthority(code: string) {
     return this.drawerService.create({
       nzTitle: '权限列表',
-      nzContent: AuthorityComponent,
+      nzContent: RoleAuthorityComponent,
       nzHeight:500,
-
       nzPlacement:"bottom",
       nzContentParams: {
-        roleCode: code,
-        rowButton:null,
-        gridTablePagination: new SimpleGridTablePagination(),
-        sideBar: null,
-        columnDefs: [
-          {headerName: this.translate.instant('page.system.authority.resource.label'), field: 'resource'},
-          {headerName: this.translate.instant('page.system.authority.resourceType.label'), field: 'resourceType'},
-          {headerName: this.translate.instant('page.system.authority.processor.label'), field: 'processor'},
-          {headerName: this.translate.instant('page.system.authority.processorValue.label'),flex:1, field: 'processorValue'},
-          {headerName: this.translate.instant('common.remark'), field: 'remark',}
-        ]
+        code,
+        showAuthorityApi:this.showAuthorityApi
       },
 
     })

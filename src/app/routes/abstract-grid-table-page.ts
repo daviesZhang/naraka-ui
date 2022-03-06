@@ -4,8 +4,9 @@ import {ParamsTransform, QueryPage, QueryParams} from "@core/modal/query";
 import {mergeQueryParams, transformQueryParams} from "@shared/utils/tools";
 import {Observable} from "rxjs";
 import {PageItem} from "@core/modal/page";
+import {ColDef} from "ag-grid-community";
 
-export abstract class AbstractGridTablePage{
+export abstract class AbstractGridTablePage {
 
   protected searchForm?: JsonFormComponent;
 
@@ -30,7 +31,6 @@ export abstract class AbstractGridTablePage{
   }
 
 
-
   /**
    * getData的帮助方法,转换查询参数
    * @param queryPage
@@ -38,7 +38,7 @@ export abstract class AbstractGridTablePage{
    * @param getData
    * @param queryParams
    */
-  getDataUtils=<T>(queryPage:QueryPage,getData:RequestData<T, QueryPage>,queryParams?:QueryParams):Observable<Page<T>> => {
+  getDataUtils = <T>(queryPage: QueryPage, getData: RequestData<T, QueryPage>, queryParams?: QueryParams): Observable<Page<T>> => {
     if (queryParams) {
       mergeQueryParams(queryPage.query, queryParams);
     }
@@ -47,6 +47,22 @@ export abstract class AbstractGridTablePage{
     }
     return getData(queryPage);
   }
+
+
+  static filterColumnDefs(colDefs: ColDef[], resource: string, authority?: Map<string, Array<string>>): ColDef[] {
+    if (!authority) {
+      return colDefs;
+    }
+    const filter = authority.get(resource);
+    if (filter && filter.length) {
+      return colDefs.filter(column => {
+        return !column.field || filter.indexOf(column.field) < 0;
+      });
+    }
+    return colDefs;
+
+  }
+
 
 
 

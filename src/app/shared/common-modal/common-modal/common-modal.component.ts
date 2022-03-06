@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {FormlyFieldConfig} from "@ngx-formly/core";
 import {FormGroup} from "@angular/forms";
 import {NzModalRef} from "ng-zorro-antd/modal";
@@ -8,13 +8,14 @@ import {JsonFormComponent} from "../../json-form/json-form.component";
 @Component({
   selector: 'app-create-modal',
   templateUrl: './common-modal.component.html',
-  styles:[
+  styles: [
     `
-      .modal-footer{
+      .modal-footer {
         display: flex;
         justify-content: flex-end;
       }
-      .modal-footer button{
+
+      .modal-footer button {
         margin-left: 8px;
       }
     `
@@ -33,7 +34,7 @@ export class CommonModalComponent implements OnInit {
   request!: (data: any) => Observable<any>;
 
   @Input()
-  content!: FormlyFieldConfig[]|string|TemplateRef<any>;
+  content!: FormlyFieldConfig[] | string | TemplateRef<any>;
 
   @ViewChild("jsonForm")
   jsonForm?: JsonFormComponent;
@@ -49,40 +50,45 @@ export class CommonModalComponent implements OnInit {
   form = new FormGroup({});
 
   @Output()
-  modelChange= new EventEmitter<any>();
+  modelChange = new EventEmitter<any>();
 
   loading = false;
 
-  fields: FormlyFieldConfig[]|null = null;
+  fields: FormlyFieldConfig[] | null = null;
 
   contentString = '';
 
   ngOnInit(): void {
-    if (this.isFormly(this.content)){
+    if (this.isFormly(this.content)) {
       this.fields = this.content;
-    }else if(typeof this.content==='string'){
+    } else if (typeof this.content === 'string') {
       this.contentString = this.content;
-    }else{
+    } else {
       this.contentTemplate = this.content;
     }
 
   }
 
-  isFormly(content: FormlyFieldConfig[]|string|TemplateRef<any>): content is FormlyFieldConfig[]{
+  isFormly(content: FormlyFieldConfig[] | string | TemplateRef<any>): content is FormlyFieldConfig[] {
     return Array.isArray(content);
 
   }
 
-  submit(){
-    let data=null;
-    if (this.jsonForm){
+  submit() {
+    let data = null;
+    if (this.jsonForm) {
       data = this.jsonForm.submitHandle();
-      if (null==data){
+      if (null == data) {
         return;
       }
     }
     this.loading = true;
-    this.request(data).subscribe({
+    this.request(data).pipe(map(next => {
+      if (next === undefined || next === null) {
+        return true;
+      }
+      return next;
+    })).subscribe({
       next: next => {
         this.modal.close(next);
       }, error: error => {
@@ -92,7 +98,8 @@ export class CommonModalComponent implements OnInit {
 
 
   }
-  cancel(){
+
+  cancel() {
     this.modal.close(false);
 
   }

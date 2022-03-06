@@ -17,7 +17,7 @@ export interface ICurrentUser{
    * 接口已过滤字段Map,可配合客服端隐藏掉对已过滤字段的展示
    * URL 过滤字段
    */
-  filter:{[key:string]:string};
+  authority:{[key:string]:string};
 
   /**
    * 已配置的菜单列表
@@ -33,7 +33,7 @@ export interface UserMenu{
     parent:number;
 }
 
-export class CurrentUser implements ICurrentUser{
+export class CurrentUser {
 
   username: string;
 
@@ -48,10 +48,10 @@ export class CurrentUser implements ICurrentUser{
   createdTime:string;
 
   /**
-   * 接口已过滤字段Map,可配合客服端隐藏掉对已过滤字段的展示
+   * 已授权接口=>已过滤字段Map,可配合客服端隐藏掉对已过滤字段的展示
    * URL 过滤字段
    */
-  filter:{[key:string]:string};
+  resource:Map<string,Array<string>>;
 
   /**
    * 已配置的菜单列表
@@ -63,9 +63,20 @@ export class CurrentUser implements ICurrentUser{
     this.username = me.username;
     this.passwordExpireTime = me.passwordExpireTime;
     this.createdTime = me.createdTime;
-    this.filter = me.filter||{};
+    this.resource = this.createAuthority(me.authority||{});
     this.menus = me.menus;
   }
+
+
+  private createAuthority(authority:{[key:string]:string}):Map<string,Array<string>>{
+    const resource: Map<string, Array<string>> = new Map<string, Array<string>>();
+    Object.entries(authority).forEach(([key, value]) => {
+      resource.set(key, value.split(","));
+
+    });
+    return resource;
+  }
+
 
 
 

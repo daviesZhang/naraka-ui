@@ -3,13 +3,15 @@ import {AbstractGridTablePage} from "../../abstract-grid-table-page";
 import {HttpClient} from "@angular/common/http";
 import {TranslateService} from "@ngx-translate/core";
 import {CrudHelperService} from "@core/services/crud-helper.service";
-import {GridTablePagination, RequestDataType, RowButton} from 'ngx-grid-table';
+import {GridTablePagination, RequestData, RequestDataType, RowButton} from 'ngx-grid-table';
 import {QueryPage} from '@core/modal/query';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {Page, PageItem} from '@core/modal/page';
 
 import {FormlyFieldConfig} from "@ngx-formly/core";
 import {ColDef, GridOptions, SideBarDef} from "ag-grid-community";
+import {ValidationService} from "@core/services/validation.service";
+
 
 @Component({
   selector: 'app-authority',
@@ -18,23 +20,63 @@ import {ColDef, GridOptions, SideBarDef} from "ag-grid-community";
 })
 export class AuthorityComponent extends AbstractGridTablePage implements OnInit {
 
-  searchFields: FormlyFieldConfig[] = [];
-  @Input()
-  rowButton?: RowButton|null;
-  /**
-   * 角色code
-   */
-  @Input()
-  roleCode: string | null = null;
+
+  searchFields: FormlyFieldConfig[] = [{
+    fieldGroupClassName: 'grid-search-panel',
+    fieldGroup: [
+      {
+        key: 'resource',
+        type: 'input',
+        templateOptions: {
+          labelWidth: 80,
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.authority.resource.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.authority.resource.placeholder'),
+        },
+      },
+      {
+        key: 'resourceType',
+        type: 'select',
+        templateOptions: {
+          labelWidth: 80,
+          allowClear: true,
+          selectWidth: 150,
+          options: [
+            {label: this.translate.instant('page.system.authority.resourceType.0'), value: 0},
+            {label: this.translate.instant('page.system.authority.resourceType.1'), value: 1}
+          ]
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.authority.resourceType.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.authority.resourceType.placeholder'),
+        },
+      },
+      {
+        key: 'processor',
+        type: 'select',
+        templateOptions: {
+          labelWidth: 80,
+          allowClear: true,
+          selectWidth: 150,
+          options: [
+            {label: this.translate.instant('page.system.authority.processor.0'), value: 0},
+            {label: this.translate.instant('page.system.authority.processor.1'), value: 1}
+          ]
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.authority.processor.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.authority.processor.placeholder'),
+        },
+      }
+    ]
+  }];
 
 
+  request: RequestData<any, QueryPage> = (params: RequestDataType<QueryPage>): Observable<Page<PageItem>> => {
+    return this.http.post<Page<PageItem>>("/admin/system/authority/list", params);
+  };
 
-  @Input()
-  sideBar?: SideBarDef | string | boolean | null = undefined;
-
-
-  @Input()
-  gridTablePagination?: GridTablePagination;
 
   @Input()
   columnDefs: ColDef[] = [
@@ -50,7 +92,12 @@ export class AuthorityComponent extends AbstractGridTablePage implements OnInit 
   ];
   gridOptions: GridOptions = {};
 
+  createApi = "/admin/system/authority";
+  deleteApi = "/admin/system/authority";
+  updateApi = "/admin/system/authority";
+
   constructor(private http: HttpClient, private translate: TranslateService,
+              private validationService: ValidationService,
               private helper: CrudHelperService) {
     super();
   }
@@ -60,31 +107,122 @@ export class AuthorityComponent extends AbstractGridTablePage implements OnInit 
 
     this.gridOptions = {
       columnDefs: this.columnDefs,
-      sideBar: this.sideBar,
+
     }
   }
-
-  request = (params: RequestDataType<QueryPage>): Observable<Page<PageItem>> => {
-    if (this.roleCode) {
-      params.query['roleCode'] = {filter:this.roleCode,type:'NOT_EQUALS'};
-    }
-    return this.http.post<Page<PageItem>>("/admin/system/authority/list", params);
-  };
 
 
   create() {
 
-    const fields: FormlyFieldConfig[] = [
-      {}
-    ]
-    this.helper.createCommonModal(this.translate.instant('common.create'), fields,
-      params => this.http.post('/admin/system/authority', params));
+
+    this.helper.createCommonModal(this.translate.instant('common.create'),   this.commonFields(),
+      params => this.http.post(this.createApi, params))
+      .subscribe((next) => {
+        next && this.gridTable?.searchRowsData();
+      });
   }
 
-  delete(data:PageItem){
-
+  delete(id:number) {
+    this.helper.simpleDeleteConfirmModal(() => this.http.delete(this.deleteApi, {params: {id}}))
+      .subscribe((next) =>  next && this.gridTable?.searchRowsData());
   }
 
 
+  update(data:PageItem){
 
+    this.helper.createCommonModal(this.translate.instant('common.update'),
+      this.commonFields(),
+      value => this.http.put(this.updateApi,
+        Object.assign({id: data['id']}, value)), data)
+      .subscribe(next => next && this.gridTable?.refreshRowsData());
+  }
+
+
+  commonFields():FormlyFieldConfig[]{
+    return [
+      {
+        key: 'resource',
+        type: 'input',
+        templateOptions: {
+          labelWidth: 80,
+          required: true
+        },
+        validation: {
+          messages: {
+            required: this.validationService.requiredMessage
+          }
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.authority.resource.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.authority.resource.placeholder'),
+        },
+      },
+      {
+        key: 'resourceType',
+        type: 'select',
+        defaultValue: 0,
+        templateOptions: {
+          labelWidth: 80,
+          selectWidth: 150,
+          required: true,
+          options: [
+            {label: this.translate.instant('page.system.authority.resourceType.0'), value: 0},
+            {label: this.translate.instant('page.system.authority.resourceType.1'), value: 1}
+          ]
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.authority.resourceType.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.authority.resourceType.placeholder'),
+        },
+      },
+      {
+        key: 'processor',
+        type: 'select',
+
+        templateOptions: {
+          allowClear: true,
+          labelWidth: 80,
+          selectWidth: 150,
+          options: [
+            {label: this.translate.instant('page.system.authority.processor.0'), value: 0},
+            {label: this.translate.instant('page.system.authority.processor.1'), value: 1}
+          ]
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.authority.processor.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.authority.processor.placeholder'),
+        },
+      },
+      {
+        key: 'processorValue',
+        type: 'input',
+        templateOptions: {
+          labelWidth: 80,
+        },
+        validation: {
+          messages: {}
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('page.system.authority.processorValue.label'),
+          'templateOptions.placeholder': this.translate.stream('page.system.authority.processorValue.placeholder'),
+        },
+      },
+      {
+        key: 'remark',
+        type: 'input',
+        templateOptions: {
+          labelWidth: 80,
+        },
+        validation: {
+          messages: {
+            required: this.validationService.requiredMessage
+          }
+        },
+        expressionProperties: {
+          'templateOptions.label': this.translate.stream('common.remark'),
+          'templateOptions.placeholder': this.translate.stream('common.remark'),
+        },
+      },
+    ];
+  }
 }

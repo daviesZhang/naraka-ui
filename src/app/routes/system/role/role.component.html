@@ -13,13 +13,11 @@
 </ng-template>
 
 <ng-template #buttons let-node>
-  <button nz-button nzSize="small"
+  <button  *acl="{resource:showAuthorityApi}" nz-button nzSize="small"
           nzType="primary"
           (click)="showAuthority(node.data.code)">{{'page.system.role.showAuthority' |translate}}</button>
 
-  <button nz-button nzSize="small"
-          nzType="primary"
-          (click)="assignAuthority(node.data.code)">{{'page.system.role.assignAuthority' |translate}}</button>
+
 </ng-template>
 
 
@@ -30,3 +28,4 @@
                 (gridReady)="onGridReady($event,jsonForm)"
                 [options]="gridOptions">
 </ngx-grid-table>
+

@@ -16,28 +16,29 @@ export class LoginModalComponent implements OnInit {
   validateForm!: FormGroup;
 
   @Input()
-  successCall: () => void = () =>{};
+  successCall: () => void = () => {
+  };
 
-  constructor(private fb:FormBuilder,
-              private tokenService:TokenService,
-              private meService:MeService,
-              private http:HttpClient) {
+  constructor(private fb: FormBuilder,
+              private tokenService: TokenService,
+              private meService: MeService,
+              private http: HttpClient) {
   }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      principal:[],
-      password:[],
+      principal: [],
+      password: [],
     });
   }
 
-  login(){
+  login() {
     this.tokenService.cleanToken();
     this.tokenService.requestToken(this.validateForm.value)
-      .pipe(switchMap(()=>this.meService.me()))
+      .pipe(switchMap(() => this.meService.me()))
       .subscribe(response => {
-      this.successCall();
-    });
+        this.successCall();
+      });
   }
 
 }
